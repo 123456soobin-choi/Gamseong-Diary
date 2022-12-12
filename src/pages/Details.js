@@ -1,7 +1,7 @@
-import React from "react";
-import Layout from "../components/common/Layout";
-import Header from "../components/common/Header";
-import Card from "../components/features/Card";
+import React from 'react';
+import Layout from '../components/common/Layout';
+import Header from '../components/common/Header';
+import Card from '../components/features/details/Card';
 
 function Details() {
   return (
