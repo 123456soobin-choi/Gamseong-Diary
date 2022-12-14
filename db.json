@@ -1,25 +1,15 @@
 {
   "diary": [
     {
-      "id": 1,
-      "title": "diary",
-      "content": "write diary"
+      "title": "sdf",
+      "content": "sdffsdsdfsdfsdf",
+      "id": 1
     },
     {
-      "title": "테스트",
-      "content": "테스트를 하자",
+      "title": "sdf",
+      "content": "ffff",
       "id": 2
-    },
-    {
-      "title": "dsfa",
-      "content": "asdfdfas",
-      "id": 3
     }
   ],
-  "comments": [
-    {
-      "comment": "sdfdfssdfsdfsdf",
-      "id": 2
-    }
-  ]
+  "comments": []
 }

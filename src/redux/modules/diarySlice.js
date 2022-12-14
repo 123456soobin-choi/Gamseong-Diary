@@ -1,3 +1,5 @@
+// src/redux/modules/counterSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 // import nextId from 'react-id-generator';
@@ -10,6 +12,11 @@ const initialState = {
       content: 'write diary',
     },
   ],
+  detail: {
+    id: 1,
+    title: 'title',
+    content: 'content',
+  },
   isLoading: false,
   error: null,
 };
@@ -18,21 +25,47 @@ export const getDiary = createAsyncThunk(
   'diary/getDiary', // 액션 밸류의 이름
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`http://localhost:3001/diary`); // data 상수는 get 요청을 하겠다! 라는 뜻 자체를 담고있다.
+      const data = await axios.get('http://localhost:3001/diary'); // data 상수는 get 요청을 하겠다! 라는 뜻 자체를 담고있다.
+      console.log(data);
       return thunkAPI.fulfillWithValue(data.data); // promise에서 네트워크 요청이 성공한 경우 dispatch하고, 인자로는 payload가 들어간다.
       // (!!! 디스패치는 액션과 페이로드를 리듀서에게 전달하는 과정이다!!!)
     } catch (error) {
+      console.log(error);
       return thunkAPI.rejectWithValue(error); // promise에서 네트워크 요청이 실패한 경우, 원하는 값을 리턴해주고, 여기서는 리턴하는 인자로 catch에서 주는 error를 리턴하게 만들었다.
     }
   },
 );
 
+export const getDiaryId = createAsyncThunk('diary/getDiaryId', async (detailId, thunkAPI) => {
+  console.log(detailId);
+  try {
+    const data = await axios.get(`http://localhost:3001/diary/${detailId}`);
+    console.log('api통신', data.data);
+    return thunkAPI.fulfillWithValue(data.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const postDiary = createAsyncThunk('diary/postDiary', async (newDiary, thunkAPI) => {
   try {
-    const response = await axios.post(`http://localhost:3001/diary`, newDiary);
+    const response = await axios.post('http://localhost:3001/diary', newDiary);
+    console.log(response);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
+    console.log(error);
     return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const deleteDiary = createAsyncThunk('diary/deleteDiary', async (itemId, { dispatch }) => {
+  try {
+    const response = await axios.delete(`http://localhost:3001/diary/${itemId}`);
+    console.log(response);
+    dispatch(getDiary());
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -60,10 +93,16 @@ export const diarySlice = createSlice({
     [postDiary.rejected]: (state, action) => {
       state.error = action.payload;
     },
+    [getDiaryId.fulfilled]: (state, action) => {
+      state.detail = action.payload;
+      console.log(action.payload);
+    },
   },
 });
 
+// const eraseDiary = diary.filter((item) => item.id !== diaryId);
 // 액션크리에이터는 컴포넌트에서 사용하기 위해 export 하고
-export const { diary } = diarySlice.actions;
+// export const {} = diarySlice.actions;
 // reducer 는 configStore에 등록하기 위해 export default 합니다.
 export default diarySlice.reducer;
+// dispatch -> slice -> diary: null (slice 실행 시 일단 다 초기화하고) -> success (통신이 성공하면서 들어온 데이터를) -> diary: [data] (다시 넣어준다)

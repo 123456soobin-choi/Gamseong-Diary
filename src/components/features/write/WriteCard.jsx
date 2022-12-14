@@ -10,7 +10,7 @@ import { postDiary } from '../../../redux/modules/diarySlice';
 
 // 일기쓰기/수정 페이지에 들어갈 컴포넌트
 // LinkDiv 테스트용
-function Card() {
+function WriteCard() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -21,7 +21,6 @@ function Card() {
     const newDiary = { title, content };
     if (title === '' || content === '') {
       alert('제목과 타이틀을 모두 작성해주세요.');
-      // return null;
     } else {
       dispatch(postDiary(newDiary));
       setTitle('');
@@ -82,7 +81,7 @@ function Card() {
 // 이 DiaryBox 컴포넌트 안에 일기 리스트들, 일기쓰기 버튼, 삭제하기 버튼 넣기
 // 일기리스트 저 글자는 임의로 적은 것임
 
-export default Card;
+export default WriteCard;
 
 const DiaryWrite = styled.div``;
 

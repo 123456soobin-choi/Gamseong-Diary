@@ -1,12 +1,16 @@
 import React, { useEffect, useState, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
 import { getComment, postComment, deleteComment } from '../../../redux/modules/commentSlice';
+import { getDiaryId } from '../../../redux/modules/diarySlice';
 
 function CommentList() {
+  const params = useParams();
+  const detailId = useSelector((state) => state.diary.detail);
+
   const { isLoading, error, comments } = useSelector((state) => state.comments);
   const [input, setInput] = useState('');
   // const [input, setinput] = useState({ comment: '' });
@@ -29,10 +33,13 @@ function CommentList() {
 
   const deleteHandler = (id) => {
     dispatch(deleteComment(id)).then(() => {
-      window.location.replace('/details');
+      window.location.replace(`/details/${id}`);
     });
   };
 
+  useEffect(() => {
+    dispatch(getDiaryId(params.id));
+  }, [dispatch, params.id]);
   // 처음 mount 될 때와 getComment() dispatch 가 실행될 때 렌더링됨
   useEffect(() => {
     dispatch(getComment());
@@ -58,15 +65,8 @@ function CommentList() {
       </LinkDiv>
       <DetailDiv>
         <Diary>
-          {/* <div className="photo">사진</div> */}
-          <div className="title">오늘 있었던 일</div>
-          <div className="content">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-            has been the standard dummy text ever since the 1500s, when an unknown printer took a
-            galley of type and scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting, remaining essentially
-            unchanged. - dummy text
-          </div>
+          <div className="title">{detailId.title}</div>
+          <div className="content">{detailId.content}</div>
         </Diary>
 
         <InputBox>
