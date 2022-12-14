@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'NanumBarunpen';
+  src: url('./NanumBarunpenB.woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NanumBarunpen';
+  src: url('./NanumBarunpenR.woff');
+  font-weight: 100;
+  font-style: normal;
+}

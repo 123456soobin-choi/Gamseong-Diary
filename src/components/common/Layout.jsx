@@ -6,7 +6,6 @@ const Layout = styled.div`
   padding: 30px;
   max-width: 1200px;
   min-width: 800px;
-  background-color: lightgray; //테스트
 `;
 
 export default Layout;

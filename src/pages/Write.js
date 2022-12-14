@@ -1,13 +1,13 @@
 import React from 'react';
 import Layout from '../components/common/Layout';
 import Header from '../components/common/Header';
-import WriteCard from '../components/features/write/WriteCard';
+import Card from '../components/features/write/Card';
 
 function Details() {
   return (
     <Layout>
       <Header />
-      <WriteCard />
+      <Card />
     </Layout>
   );
 }

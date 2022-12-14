@@ -1,0 +1,53 @@
+{
+  "diary": [
+    {
+      "id": 1,
+      "title": "diary",
+      "content": "write diary"
+    },
+    {
+      "title": "테스트",
+      "content": "테스트를 하자",
+      "id": 2
+    },
+    {
+      "title": "dsfa",
+      "content": "asdfdfas",
+      "id": 3
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "comment": "json-server를 배워봅시다."
+    },
+    {
+      "comment": "댓글테스트",
+      "id": 2
+    },
+    {
+      "comment": "ㄹㄴㅇㄹㅇㄹㄹㄴㅇㄹㅇㄴㄹㄴㅇ",
+      "id": 3
+    },
+    {
+      "comment": "sdffsddsf",
+      "id": 4
+    },
+    {
+      "comment": "도배도배ㄴㅇㄹ",
+      "id": 5
+    },
+    {
+      "comment": "sadf",
+      "id": 6
+    },
+    {
+      "comment": "ㅇㄴㄹ",
+      "id": 7
+    },
+    {
+      "comment": "삭제 수정 추가",
+      "id": 8
+    }
+  ]
+}
