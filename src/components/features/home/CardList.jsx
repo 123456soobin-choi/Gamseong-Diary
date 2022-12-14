@@ -38,8 +38,10 @@ function CardList() {
         <div>
           {diary.map((item) => (
             <div key={item.id}>
-              {item.title}
-              {item.content}
+              <div style={{ border: '1px solid black' }}>
+                <div>{item.title}</div>
+                <div>{item.content}</div>
+              </div>
             </div>
           ))}
         </div>
