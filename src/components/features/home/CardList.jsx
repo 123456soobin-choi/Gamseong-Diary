@@ -2,13 +2,16 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDiary } from '../../../redux/modules/diarySlice';
+import { getDiary, deleteDiary } from '../../../redux/modules/diarySlice';
+import Button from '../../common/Button';
 
 // 메인 페이지에 들어갈 컴포넌트
 // LinkDiv 테스트용
 function CardList() {
   const dispatch = useDispatch();
   const { isLoading, error, diary } = useSelector((state) => state.diary);
+  // const [state, setState] = useState()
+  // const { itemId } = useSelector((state) => state.diary);
   // const { isLoading, error, todos } = useSelector((state) => state.todos);
 
   useEffect(() => {
@@ -23,6 +26,13 @@ function CardList() {
     return <div>{error.message}</div>;
   }
 
+  const onDelete = (itemId) => {
+    console.log(itemId);
+    dispatch(deleteDiary(itemId)).then(() => {
+      window.location.replace('/');
+    });
+  };
+
   return (
     <DiaryBox>
       <h3>일기리스트</h3>
@@ -32,19 +42,32 @@ function CardList() {
         </Link>
       </LinkDiv>
       <LinkDiv>
-        <Link to="/details" className="datail">
+        {/* <Link to="/details" className="datail">
           <span>일기 상세보기(일기 카드)</span>
-        </Link>
-        <div>
+        </Link> */}
+        <StListContainer>
           {diary.map((item) => (
-            <div key={item.id}>
-              <div style={{ border: '1px solid black' }}>
-                <div>{item.title}</div>
-                <div>{item.content}</div>
-              </div>
-            </div>
+            <Link key={item.id} to={`/details/${item.id}`}>
+              <StList>
+                <div>
+                  <div>{item.id}</div>
+                  <div style={{ fontSize: '1.2rem', marginBottom: '10px' }}>
+                    일기 제목: {item.title}
+                  </div>
+                  <div>{item.content}</div>
+                </div>
+                <Button
+                  color="rgb(255, 128, 129)"
+                  onClick={() => {
+                    onDelete(item.id);
+                  }}
+                >
+                  삭제
+                </Button>
+              </StList>
+            </Link>
           ))}
-        </div>
+        </StListContainer>
       </LinkDiv>
     </DiaryBox>
   );
@@ -66,4 +89,18 @@ const LinkDiv = styled.div`
     color: #949393;
     text-decoration: none;
   }
+`;
+
+const StListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const StList = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid #877676;
+  align-items: center;
 `;

@@ -12,6 +12,11 @@ const initialState = {
       content: 'write diary',
     },
   ],
+  detail: {
+    id: 1,
+    title: 'title',
+    content: 'content',
+  },
   isLoading: false,
   error: null,
 };
@@ -31,6 +36,18 @@ export const getDiary = createAsyncThunk(
   },
 );
 
+export const getDiaryId = createAsyncThunk('diary/getDiaryId', async (detailId, thunkAPI) => {
+  console.log(detailId);
+  try {
+    const data = await axios.get(`http://localhost:3001/diary/${detailId}`);
+    console.log('api통신', data.data);
+    return thunkAPI.fulfillWithValue(data.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const postDiary = createAsyncThunk('diary/postDiary', async (newDiary, thunkAPI) => {
   try {
     const response = await axios.post('http://localhost:3001/diary', newDiary);
@@ -39,6 +56,16 @@ export const postDiary = createAsyncThunk('diary/postDiary', async (newDiary, th
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const deleteDiary = createAsyncThunk('diary/deleteDiary', async (itemId, { dispatch }) => {
+  try {
+    const response = await axios.delete(`http://localhost:3001/diary/${itemId}`);
+    console.log(response);
+    dispatch(getDiary());
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -66,10 +93,16 @@ export const diarySlice = createSlice({
     [postDiary.rejected]: (state, action) => {
       state.error = action.payload;
     },
+    [getDiaryId.fulfilled]: (state, action) => {
+      state.detail = action.payload;
+      console.log(action.payload);
+    },
   },
 });
 
+// const eraseDiary = diary.filter((item) => item.id !== diaryId);
 // 액션크리에이터는 컴포넌트에서 사용하기 위해 export 하고
-export const { diary } = diarySlice.actions;
+export const {} = diarySlice.actions;
 // reducer 는 configStore에 등록하기 위해 export default 합니다.
 export default diarySlice.reducer;
+// dispatch -> slice -> diary: null (slice 실행 시 일단 다 초기화하고) -> success (통신이 성공하면서 들어온 데이터를) -> diary: [data] (다시 넣어준다)

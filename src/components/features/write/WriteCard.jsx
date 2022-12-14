@@ -21,12 +21,12 @@ function CardList() {
     const newDiary = { title, content };
     if (title === '' || content === '') {
       alert('제목과 타이틀을 모두 작성해주세요.');
-      return null;
+    } else {
+      dispatch(postDiary(newDiary));
+      setTitle('');
+      setContent('');
+      window.location.replace('/');
     }
-    dispatch(postDiary(newDiary));
-    setTitle('');
-    setContent('');
-    window.location.replace('/');
   };
 
   /* const onSubmitHandler = async (diary) => {

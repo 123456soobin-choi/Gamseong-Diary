@@ -1,10 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
+import { getDiaryId } from '../../../redux/modules/diarySlice';
 
 function Card() {
+  const dispatch = useDispatch();
+  const params = useParams();
+  console.log(params);
+  const detailId = useSelector((state) => state.diary.detail);
+  console.log(detailId);
+  // console.log('찾을 값', id)
+  // const { isLoading, error, diary } = useSelector((state) => state.diary);
+  useEffect(() => {
+    dispatch(getDiaryId(params.id));
+  }, [dispatch, params.id]);
+
   return (
     <DiaryDetail>
       <LinkDiv>
@@ -17,15 +30,8 @@ function Card() {
       </LinkDiv>
       <DetailDiv>
         <Diary>
-          <div className="photo">사진</div>
-          <div className="title">오늘 있었던 일</div>
-          <div className="content">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-            has been the standard dummy text ever since the 1500s, when an unknown printer took a
-            galley of type and scrambled it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting, remaining essentially
-            unchanged. - dummy text
-          </div>
+          <div className="title">{detailId.title}</div>
+          <div className="content">{detailId.content}</div>
         </Diary>
         <Comment>
           <Input type="text" name="commentNew" label="댓글을 작성해주세요" />
