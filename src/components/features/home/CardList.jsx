@@ -50,11 +50,11 @@ function CardList() {
             <Link key={item.id} to={`/details/${item.id}`}>
               <StList>
                 <div>
-                  <div>{item.id}</div>
+                  <div style={{ marginBottom: '10px' }}>{item.id}번째 일기</div>
                   <div style={{ fontSize: '1.2rem', marginBottom: '10px' }}>
                     일기 제목: {item.title}
                   </div>
-                  <div>{item.content}</div>
+                  <div style={{ width: '1000px' }}>{item.content}</div>
                 </div>
                 <Button
                   color="rgb(255, 128, 129)"
@@ -103,4 +103,5 @@ const StList = styled.div`
   justify-content: space-between;
   border: 1px solid #877676;
   align-items: center;
+  padding: 10px;
 `;

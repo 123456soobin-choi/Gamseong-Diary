@@ -102,7 +102,7 @@ export const diarySlice = createSlice({
 
 // const eraseDiary = diary.filter((item) => item.id !== diaryId);
 // 액션크리에이터는 컴포넌트에서 사용하기 위해 export 하고
-export const {} = diarySlice.actions;
+// export const {} = diarySlice.actions;
 // reducer 는 configStore에 등록하기 위해 export default 합니다.
 export default diarySlice.reducer;
 // dispatch -> slice -> diary: null (slice 실행 시 일단 다 초기화하고) -> success (통신이 성공하면서 들어온 데이터를) -> diary: [data] (다시 넣어준다)
