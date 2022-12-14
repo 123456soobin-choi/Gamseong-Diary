@@ -1,0 +1,14 @@
+{
+  "diary": [
+    {
+      "id": 1,
+      "title": "diary",
+      "content": "write diary"
+    },
+    {
+      "title": "테스트",
+      "content": "테스트를 하자",
+      "id": 2
+    }
+  ]
+}

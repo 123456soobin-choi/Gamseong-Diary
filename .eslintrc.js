@@ -21,7 +21,9 @@ module.exports = {
   },
   plugins: ['react', 'import'],
   rules: {
+    'no-param-reassign': 0,
     'no-console': ['off'],
+    'no-alert': ['off'],
     'react/function-component-definition': [2, { namedcomponents: 'arrow-function' }],
     'react/jsx-curly-brace-presence': [1, { props: 'never', children: 'never' }],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],

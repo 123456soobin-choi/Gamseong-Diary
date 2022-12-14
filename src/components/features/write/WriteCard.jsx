@@ -1,25 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
+// import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { CKEditor } from 'ckeditor4-react';
+// import nextId from 'react-id-generator';
+import { useDispatch } from 'react-redux';
+import Button from '../../common/Button';
+import Input from '../../common/Input';
+import { postDiary } from '../../../redux/modules/diarySlice';
 
 // 일기쓰기/수정 페이지에 들어갈 컴포넌트
 // LinkDiv 테스트용
 function CardList() {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
+  const dispatch = useDispatch();
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    const newDiary = { title, content };
+    if (title === '' || content === '') {
+      alert('제목과 타이틀을 모두 작성해주세요.');
+      return null;
+    }
+    dispatch(postDiary(newDiary));
+    setTitle('');
+    setContent('');
+    window.location.replace('/');
+  };
+
+  /* const onSubmitHandler = async (diary) => {
+    // 1.  이때 todos는 [{투두하나}]임
+    await axios.post('http://localhost:3001/diary', diary); // 이때 서버에 있는 todos도 [{투두하나}]임
+    // 근데 여기서 서버 요청이 끝나고 서버는 [{투두가},{두개임}]
+    setDiaries([...diaries, diary]); // 2. <-- 만약 이게 없다면, go to useEffect
+    // 4. 새로고침해서 진짜 현재 서버 데이터를 받아오기전에 상태를 똑같이 동기시켜줌
+    // 5. 어떻게보면 유저한테 서버에서 새로 받아온것처럼 속이는거지
+  }; */
+
   return (
     <DiaryWrite>
-      <h3>일기 쓰기/수정</h3>
+      <h2
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        일기 작성
+      </h2>
       <LinkDiv>
         <Link to="/" className="datail">
-          <span>일기 그만쓰기</span>
+          <span>그만쓰기</span>
         </Link>
-        <button type="submit">일기 저장</button>
+        <Button type="submit" color="rgb(78, 183, 164)" onClick={onSubmitHandler}>
+          저장
+        </Button>
       </LinkDiv>
       <StInputContainer>
-        <StInput type="text" placeholder="제목을 작성해주세요." />
-        <CKEditor
-          onInstanceReady={() => {
-            console.log('Editor is ready!');
+        <Input
+          id="title"
+          name="DiaryTitle"
+          label="제목"
+          value={title}
+          onChange={(event) => {
+            setTitle(event.target.value);
+          }}
+        />
+        <textarea
+          value={content}
+          onChange={(event) => {
+            setContent(event.target.value);
           }}
         />
       </StInputContainer>
@@ -31,9 +83,7 @@ function CardList() {
 
 export default CardList;
 
-const DiaryWrite = styled.div`
-  //여기에 스타일 지정
-`;
+const DiaryWrite = styled.div``;
 
 const LinkDiv = styled.div`
   display: flex;
@@ -52,9 +102,4 @@ const StInputContainer = styled.div`
   gap: 50px;
 
   padding: 100px 100px 100px 100px;
-`;
-
-const StInput = styled.input`
-  border: none;
-  padding: 20px;
 `;
