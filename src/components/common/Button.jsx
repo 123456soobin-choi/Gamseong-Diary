@@ -41,6 +41,6 @@ function Button({ color, children, onClick }) {
 Button.propTypes = {
   color: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.node.isRequired,
+  // onClick: PropTypes.node.isRequired,
 };
 export default Button;

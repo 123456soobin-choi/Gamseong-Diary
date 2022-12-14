@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../common/Button';
-// import Input from '../../common/Input';
-import { getComment, postComment } from '../../../redux/modules/commentSlice';
+import Input from '../../common/Input';
+import { getComment, postComment, deleteComment } from '../../../redux/modules/commentSlice';
 
 function CommentList() {
   const { isLoading, error, comments } = useSelector((state) => state.comments);
@@ -27,10 +27,13 @@ function CommentList() {
     }
   };
 
-  // const getFetchUrl = useCallback(() => {
-  //   dispatch(getComment());
-  // }, [dispatch]);
+  const deleteHandler = (id) => {
+    dispatch(deleteComment(id)).then(() => {
+      window.location.replace('/details');
+    });
+  };
 
+  // 처음 mount 될 때와 getComment() dispatch 가 실행될 때 렌더링됨
   useEffect(() => {
     dispatch(getComment());
   }, [dispatch]);
@@ -67,7 +70,7 @@ function CommentList() {
         </Diary>
 
         <InputBox>
-          <input
+          <Input
             type="text"
             name="comment"
             label="댓글을 작성해주세요"
@@ -86,14 +89,16 @@ function CommentList() {
                   <div style={{ border: '1px solid black' }}>
                     <div>{item.comment}</div>
                   </div>
+                  <div className="btnBox">
+                    <Button color="#ff8b8b" type="button" onClick={() => deleteHandler(item.id)}>
+                      삭제
+                    </Button>
+                    <Button color="#61bfad" value="수정">
+                      수정
+                    </Button>
+                  </div>
                 </div>
               ))}
-          </div>
-          <div className="btnBox">
-            <Button color="#ff8b8b" type="button">
-              삭제
-            </Button>
-            <Button color="#61bfad">수정</Button>
           </div>
         </Comment>
       </DetailDiv>
@@ -143,9 +148,10 @@ const InputBox = styled.div`
   margin-bottom: 20px;
   border-bottom: 2px solid #333;
   input {
-    height: 30px;
+    height: 50px;
     text-indent: 10px;
-    white-space: pre-line; //enter 반영
+    font-size: 18px;
+    /* white-space: pre-line; */
   }
   button {
     width: 80px;

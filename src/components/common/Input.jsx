@@ -14,7 +14,7 @@ const StyledInput = styled.div`
   input:focus,
   input.has-content + label {
     outline: none;
-    border-color: #5fa8d3;
+    border-color: #61bfad;
   }
   label {
     color: #b4b4b4;
@@ -26,7 +26,7 @@ const StyledInput = styled.div`
   }
   input:focus + label,
   input.has-content + label {
-    color: #5fa8d3;
+    color: #61bfad;
     top: -33%;
     transition: 0.2s ease-out;
     font-size: 12px;
@@ -73,8 +73,8 @@ function Input({ label, name, onChange, value }) {
 Input.propTypes = {
   label: PropTypes.node.isRequired,
   name: PropTypes.node.isRequired,
-  onChange: PropTypes.node.isRequired,
-  value: PropTypes.node.isRequired,
+  // onChange: PropTypes.node.isRequired,
+  // value: PropTypes.node.isRequired,
 };
 
 export default Input;

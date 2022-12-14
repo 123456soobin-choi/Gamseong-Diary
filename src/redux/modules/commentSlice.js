@@ -19,11 +19,32 @@ export const getComment = createAsyncThunk('comments/getcomment', async (payload
   }
 });
 
-export const postComment = createAsyncThunk(
-  'comments/postComment',
-  async (newComment, thunkAPI) => {
+export const postComment = createAsyncThunk('comments/postcomment', async (payload, thunkAPI) => {
+  try {
+    const response = await axios.post(`http://localhost:3001/comments`, payload);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// export const deleteComment = createAsyncThunk('diary/deleteDiary', async (itemId, { dispatch }) => {
+//   try {
+//     const response = await axios.delete(`http://localhost:3001/diary/${itemId}`);
+//     // console.log(response);
+//     dispatch(getComment());
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+export const deleteComment = createAsyncThunk(
+  'comments/deletecomment',
+  async (payload, thunkAPI) => {
+    // console.log('실험', payload);
     try {
-      const response = await axios.post(`http://localhost:3001/comments`, newComment);
+      await axios.delete(`http://localhost:3001/comments/${payload}`);
+      const response = await axios.get(`http://localhost:3001/comments`);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -61,6 +82,16 @@ export const commentSlice = createSlice({
     [postComment.rejected]: (state, action) => {
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
+    },
+
+    [deleteComment.fulfilled]: (state, action) => {
+      state.isLoading = false;
+
+      state.comments = state.comments.filter((item) => item.id !== action.payload);
+    },
+    [deleteComment.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });
