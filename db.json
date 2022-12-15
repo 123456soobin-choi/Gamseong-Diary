@@ -2,23 +2,24 @@
   "diary": [
     {
       "title": "1111",
-      "content": "1111111",
-      "id": 1
+      "content": "1111",
+      "id": 1,
+      "editTitle": "1111ㅂㅂ",
+      "editContent": "1111ㅂㅂ"
     },
     {
-      "title": "222222",
-      "content": "22222222",
-      "id": 2
+      "title": "222",
+      "content": "2222",
+      "id": 2,
+      "editTitle": "222cc",
+      "editContent": "2222cc"
     },
     {
-      "title": "33333",
-      "content": "333333333",
-      "id": 3
-    },
-    {
-      "title": "44444444",
-      "content": "4444444444444",
-      "id": 4
+      "title": "3333",
+      "content": "3333",
+      "id": 3,
+      "editTitle": "3333cc",
+      "editContent": "3333cc"
     }
   ],
   "comments": []

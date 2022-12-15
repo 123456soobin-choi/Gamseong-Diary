@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
 import { getComment, postComment, deleteComment } from '../../../redux/modules/commentSlice';
-import { getDiaryId, updateDiary } from '../../../redux/modules/diarySlice';
+import { getDiaryId } from '../../../redux/modules/diarySlice';
 
 function CommentList() {
   const params = useParams();
@@ -38,7 +38,7 @@ function CommentList() {
   };
 
   const onEditHandler = () => {
-    dispatch(updateDiary(detailId));
+    // dispatch();
   };
 
   useEffect(() => {

@@ -38,7 +38,7 @@ export const getDiary = createAsyncThunk(
 
 export const getDiaryId = createAsyncThunk('diary/getDiaryId', async (detailId, thunkAPI) => {
   const data = await axios.get(`http://localhost:3001/diary/${detailId}`, detailId);
-  console.log('api통신', data.data);
+  // console.log('api통신', data.data);
   return thunkAPI.fulfillWithValue(data.data);
   // } catch (error) {
   //   console.log(error);
@@ -67,14 +67,11 @@ export const deleteDiary = createAsyncThunk('diary/deleteDiary', async (itemId, 
   }
 });
 
-export const updateDiary = createAsyncThunk('diary/updateDiary', async (detail, thunkAPI) => {
-  console.log('update통신', detail);
+export const updateDiary = createAsyncThunk('diary/updateDiary', async (editDiary, thunkAPI) => {
+  console.log('update통신', editDiary);
   try {
-    const response = await axios.patch(`http://localhost:3001/diary?${detail.id}/update/`, {
-      title: detail.title,
-      content: detail.content,
-    });
-    console.log('check', response);
+    const response = await axios.patch(`http://localhost:3001/diary/${editDiary.id}`, editDiary);
+    console.log('바뀐값', response.data);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     console.log(error);
@@ -107,17 +104,12 @@ export const diarySlice = createSlice({
       state.error = action.payload;
     },
     [getDiaryId.fulfilled]: (state, action) => {
-      console.log('확인', action.payload);
+      // console.log('확인', action.payload);
       state.detail = action.payload;
     },
     [updateDiary.fulfilled]: (state, action) => {
-      console.log('성공확인', action.payload);
-      state.detail = state.detail.map((item) => {
-        if (item.id === action.payload.id) {
-          return action.payload;
-        }
-        return item;
-      });
+      console.log('editDiary', action.payload);
+      state.detail = action.payload;
     },
     [updateDiary.rejected]: (state, action) => {
       state.error = action.payload;
