@@ -37,7 +37,7 @@ function CardList() {
     <DiaryBox>
       <h3>일기리스트</h3>
       <LinkDiv>
-        <Link to="/write" className="datail">
+        <Link to="/write/:id" className="datail">
           <span>일기쓰기</span>
         </Link>
       </LinkDiv>

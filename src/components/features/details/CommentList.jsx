@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
 import { getComment, postComment, deleteComment } from '../../../redux/modules/commentSlice';
-import { getDiaryId } from '../../../redux/modules/diarySlice';
+import { getDiaryId, updateDiary } from '../../../redux/modules/diarySlice';
 
 function CommentList() {
   const params = useParams();
@@ -37,6 +37,10 @@ function CommentList() {
     });
   };
 
+  const onEditHandler = () => {
+    dispatch(updateDiary(detailId));
+  };
+
   useEffect(() => {
     dispatch(getDiaryId(params.id));
   }, [dispatch, params.id]);
@@ -59,14 +63,21 @@ function CommentList() {
         <Link to="/">
           <Button color="#ff8b8b">돌아가기</Button>
         </Link>
-        <Link to="/write">
-          <Button color="#61bfad">다시 쓰기</Button>
+        <Link to={`/details/${detailId.id}/update/`}>
+          <Button color="#61bfad" onClick={onEditHandler}>
+            다시 쓰기
+          </Button>
         </Link>
       </LinkDiv>
       <DetailDiv>
         <Diary>
-          <div className="title">{detailId.title}</div>
-          <div className="content">{detailId.content}</div>
+          <div style={{ marginBottom: '15x' }}>{detailId.id}번째 일기</div>
+          <div className="title" style={{ fontSize: '2rem', marginBottom: '20px' }}>
+            {detailId.title}
+          </div>
+          <div className="content" style={{ fontSize: '1rem', marginBottom: '15px' }}>
+            {detailId.content}
+          </div>
         </Diary>
 
         <InputBox>

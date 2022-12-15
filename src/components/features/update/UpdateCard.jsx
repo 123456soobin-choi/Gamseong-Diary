@@ -1,31 +1,32 @@
 import React, { useState } from 'react';
-// import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-// import nextId from 'react-id-generator';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
-import { postDiary } from '../../../redux/modules/diarySlice';
+import { updateDiary } from '../../../redux/modules/diarySlice';
 
-// 일기쓰기/수정 페이지에 들어갈 컴포넌트
-// LinkDiv 테스트용
-function WriteCard() {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+// 일기수정 페이지에 들어갈 컴포넌트
+function UpdateCard() {
+  //   const [title, setTitle] = useState('');
+  //   const [content, setContent] = useState('');
+
+  // patch에서 사용할 제목, 컨텐츠값의 state 추가
+  const [editTitle, setEditTitle] = useState({ title: '' });
+  const [editContent, setEditContent] = useState({ content: '' });
+  const detailId = useSelector((state) => state.diary.detail);
 
   const dispatch = useDispatch();
 
-  const onSubmitHandler = (event) => {
+  const onEditHandler = (event) => {
     event.preventDefault();
-    const newDiary = { title, content };
-    if (title === '' || content === '') {
+    const editDiary = { editTitle, editContent };
+    if (editTitle === '' || editContent === '') {
       alert('제목과 타이틀을 모두 작성해주세요.');
     } else {
-      dispatch(postDiary(newDiary));
-      setTitle('');
-      setContent('');
-      window.location.replace('/');
+      dispatch(updateDiary(editDiary));
+      setEditTitle('');
+      setEditContent('');
     }
   };
 
@@ -42,10 +43,10 @@ function WriteCard() {
         일기 작성
       </h2>
       <LinkDiv>
-        <Link to="/" className="datail">
+        <Link to={`/details/${detailId.id}`} className="datail">
           <span>그만쓰기</span>
         </Link>
-        <Button type="submit" color="rgb(78, 183, 164)" onClick={onSubmitHandler}>
+        <Button type="submit" color="rgb(78, 183, 164)" onClick={onEditHandler}>
           저장
         </Button>
       </LinkDiv>
@@ -54,25 +55,24 @@ function WriteCard() {
           id="title"
           name="DiaryTitle"
           label="제목"
-          value={title}
+          value={detailId.title}
           onChange={(event) => {
-            setTitle(event.target.value);
+            setEditTitle({ editTitle: event.target.value });
           }}
         />
         <textarea
-          value={content}
+          value={detailId.content}
           onChange={(event) => {
-            setContent(event.target.value);
+            setEditContent({ editContent: event.target.value });
+            console.log(event);
           }}
         />
       </StInputContainer>
     </DiaryWrite>
   );
 }
-// 이 DiaryBox 컴포넌트 안에 일기 리스트들, 일기쓰기 버튼, 삭제하기 버튼 넣기
-// 일기리스트 저 글자는 임의로 적은 것임
 
-export default WriteCard;
+export default UpdateCard;
 
 const DiaryWrite = styled.div``;
 

@@ -37,15 +37,13 @@ export const getDiary = createAsyncThunk(
 );
 
 export const getDiaryId = createAsyncThunk('diary/getDiaryId', async (detailId, thunkAPI) => {
-  console.log(detailId);
-  try {
-    const data = await axios.get(`http://localhost:3001/diary/${detailId}`);
-    console.log('api통신', data.data);
-    return thunkAPI.fulfillWithValue(data.data);
-  } catch (error) {
-    console.log(error);
-    return thunkAPI.rejectWithValue(error);
-  }
+  const data = await axios.get(`http://localhost:3001/diary/${detailId}`, detailId);
+  console.log('api통신', data.data);
+  return thunkAPI.fulfillWithValue(data.data);
+  // } catch (error) {
+  //   console.log(error);
+  //   return thunkAPI.rejectWithValue(error);
+  // }
 });
 
 export const postDiary = createAsyncThunk('diary/postDiary', async (newDiary, thunkAPI) => {
@@ -66,6 +64,21 @@ export const deleteDiary = createAsyncThunk('diary/deleteDiary', async (itemId, 
     dispatch(getDiary());
   } catch (error) {
     console.log(error);
+  }
+});
+
+export const updateDiary = createAsyncThunk('diary/updateDiary', async (detail, thunkAPI) => {
+  console.log('update통신', detail);
+  try {
+    const response = await axios.patch(`http://localhost:3001/diary?${detail.id}/update/`, {
+      title: detail.title,
+      content: detail.content,
+    });
+    console.log('check', response);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
   }
 });
 
@@ -94,8 +107,20 @@ export const diarySlice = createSlice({
       state.error = action.payload;
     },
     [getDiaryId.fulfilled]: (state, action) => {
+      console.log('확인', action.payload);
       state.detail = action.payload;
-      console.log(action.payload);
+    },
+    [updateDiary.fulfilled]: (state, action) => {
+      console.log('성공확인', action.payload);
+      state.detail = state.detail.map((item) => {
+        if (item.id === action.payload.id) {
+          return action.payload;
+        }
+        return item;
+      });
+    },
+    [updateDiary.rejected]: (state, action) => {
+      state.error = action.payload;
     },
   },
 });
