@@ -26,24 +26,24 @@ export const getDiary = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get('http://localhost:3001/diary'); // data 상수는 get 요청을 하겠다! 라는 뜻 자체를 담고있다.
-      console.log(data);
+      // console.log(data);
       return thunkAPI.fulfillWithValue(data.data); // promise에서 네트워크 요청이 성공한 경우 dispatch하고, 인자로는 payload가 들어간다.
       // (!!! 디스패치는 액션과 페이로드를 리듀서에게 전달하는 과정이다!!!)
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return thunkAPI.rejectWithValue(error); // promise에서 네트워크 요청이 실패한 경우, 원하는 값을 리턴해주고, 여기서는 리턴하는 인자로 catch에서 주는 error를 리턴하게 만들었다.
     }
   },
 );
 
 export const getDiaryId = createAsyncThunk('diary/getDiaryId', async (detailId, thunkAPI) => {
-  console.log(detailId);
+  // console.log(detailId);
   try {
     const data = await axios.get(`http://localhost:3001/diary/${detailId}`);
-    console.log('api통신', data.data);
+    // console.log('api통신', data.data);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
@@ -51,21 +51,21 @@ export const getDiaryId = createAsyncThunk('diary/getDiaryId', async (detailId, 
 export const postDiary = createAsyncThunk('diary/postDiary', async (newDiary, thunkAPI) => {
   try {
     const response = await axios.post('http://localhost:3001/diary', newDiary);
-    console.log(response);
+    // console.log(response);
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
 
 export const deleteDiary = createAsyncThunk('diary/deleteDiary', async (itemId, { dispatch }) => {
   try {
-    const response = await axios.delete(`http://localhost:3001/diary/${itemId}`);
-    console.log(response);
+    await axios.delete(`http://localhost:3001/diary/${itemId}`);
+    // console.log(response);
     dispatch(getDiary());
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -95,7 +95,7 @@ export const diarySlice = createSlice({
     },
     [getDiaryId.fulfilled]: (state, action) => {
       state.detail = action.payload;
-      console.log(action.payload);
+      // console.log(action.payload);
     },
   },
 });

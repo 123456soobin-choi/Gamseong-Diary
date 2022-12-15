@@ -27,7 +27,7 @@ function CardList() {
   }
 
   const onDelete = (itemId) => {
-    console.log(itemId);
+    // console.log(itemId);
     dispatch(deleteDiary(itemId)).then(() => {
       window.location.replace('/');
     });
